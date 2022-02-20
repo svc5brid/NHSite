@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login
 
 # ホームぺージ。
 def index(request):
-    context = []
+    context = {}
     # 表示するアプリ集
     apps = []
     context["apps"] = apps
