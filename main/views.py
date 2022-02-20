@@ -4,8 +4,13 @@ from django.contrib.auth import authenticate, login
 
 # Create your views here.
 
+# ホームぺージ。
 def index(request):
-    return render(request, "index.html")
+    context = []
+    # 表示するアプリ集
+    apps = []
+    context["apps"] = apps
+    return render(request, "index.html", context)
 
 
 def signup(request):
