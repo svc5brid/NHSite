@@ -7,7 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="{% static 'css/index/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index/slick.css' %}">
     <script type="text/javascript" src="{% static 'javascript/jquery-3.6.0.js' %}"></script>
+    
+    <script src="{% static 'javascript/index/slick.min.js' %}" type="text/javascript"></script>
     <script src="{% static 'javascript/index/index.js' %}" type="text/javascript"></script>
 </head>
 <body>
@@ -32,7 +35,7 @@
                 <th class="app_th app_th_content app_th_U">Utility</th>
                 <th class="app_th app_th_content app_th_I">Information</th>
                 <th class="app_th app_th_content app_th_G">Game</th>
-                <th class="app_th app_th_content app_th_O">Others</th>
+                <th class="app_th app_th_content app_th_O filter">Others</th>
             </tr>
         </thead>
     </table>
@@ -52,39 +55,26 @@
             </thead>
         </table>
     </div>
-    <div class="body content" id="content">
-        <div class="applist">
-            <div class="tile tile1">A</div>
-            <div class="tile tile2">B</div>
-            <div class="tile tile3">C</div>
-            <div class="tile tile4">D</div>
-            <div class="tile tile5">E</div>
-        </div>
+    <div class="body content slider" id="content">
+        <a class="app_td_R" href=""><div class="slider__item tile tile1">A</div></a>
+        <a class="app_td_R app_td_E" href=""><div class="slider__item tile tile1">B</div></a>
+        
+            <a class="app_td_U" href=""><div class="slider__item tile tile1">C</div></a>
+            <a class="app_td_I" href=""><div class="slider__item tile tile1">D</div></a>
+            <a class="app_td_I" href=""><div class="slider__item tile tile1">D</div></a>
+            <a class="app_td_I" href=""><div class="slider__item tile tile1">D</div></a>
+            <a class="app_td_G" href=""><div class="slider__item tile tile1">E</div></a>
+            <a class="app_td_O" href=""><div class="slider__item tile tile1">E</div></a>
+            <a class="app_td_O" href=""><div class="slider__item tile tile1">E</div></a>
+            <a class="app_td_O" href=""><div class="slider__item tile tile1">E</div></a>
+            <a class="app_td_O" href=""><div class="slider__item tile tile1">E</div></a>
+            <a class="app_td_O" href=""><div class="slider__item tile tile1">E</div></a>
+            <a class="app_td_O" href=""><div class="slider__item tile tile1">E</div></a>
+            
     </div>
     <script type="text/javascript">
-        $(".app_th").on("click", function(){
-            var a = Array.from($(".app_th").not(this))
-            a.forEach(function(i){
-                i.classList.remove("app_th_selected")
-            })
-            this.classList.add("app_th_selected")
-            if($(this).hasClass("app_th_home")){
-                change("home")
-            }else{
-                change("else")
-            }
-        })
-        function change(mt){
-            var home = document.getElementById("home")
-            var content = document.getElementById("content")
-            if(mt=="home"){
-                home.classList.add("show")
-                content.classList.remove("show")
-            }else{
-                home.classList.remove("show")
-                content.classList.add("show")
-            }
-        }
+        
     </script>
+    
 </body>
 </html>

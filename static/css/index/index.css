@@ -5,6 +5,9 @@
     -webkit-transition: .3s;
     width: 10%;
 }
+body{
+    overflow-x: hidden;
+}
 .app_th:not(.app_th_selected):hover{
     cursor: pointer;
     background: #EEE;
@@ -80,23 +83,91 @@
 .apps{
     text-align: center;
 }
-.applist{
+.slider{
     width: 80%;
     margin-right: auto;
     margin-left: auto;
-    display: flex;
-    flex-direction: row;
-    overflow-x: auto;
+    display: none;
+}
+.slider.slick-initialized{
+    display: block;
+}
+.slider.tile{
+    width: 60vw;
+    height: 500px;
+}
+.slider__item {
+    transform: scale(0.8);
+    opacity: 0.34;
+    transition: all 0.4s;
+}
+    .slick-slide.slick-current .slider__item,
+    .slick-slide.is-active-next .slider__item {
+    transform: scale(1);/*中央の画像のサイズだけ等倍に*/
+    opacity: 1;/*透過なし*/
+}
+
+.slider .slick-slide.slick-center:hover{
+    transform: scale(1.02);
+}
+.slick-prev, 
+.slick-next {
+    position: absolute;/*絶対配置にする*/
+    top: 42%;
+    cursor: pointer;/*マウスカーソルを指マークに*/
+    outline: none;/*クリックをしたら出てくる枠線を消す*/
+    border-top: 2px solid #666;/*矢印の色*/
+    border-right: 2px solid #666;/*矢印の色*/
+    height: 15px;
+    width: 15px;
+}
+.slick-prev {/*戻る矢印の位置と形状*/
+    left: -1.5%;
+    transform: rotate(-135deg);
+}
+
+.slick-next {/*次へ矢印の位置と形状*/
+    right: -1.5%;
+    transform: rotate(45deg);
+}
+
+/*ドットナビゲーションの設定*/
+
+.slick-dots {
+    text-align:center;
+	margin:20px 0 0 0;
+}
+
+.slick-dots li {
+    display:inline-block;
+	margin:0 5px;
+}
+
+.slick-dots button {
+    color: transparent;
+    outline: none;
+    width:8px;/*ドットボタンのサイズ*/
+    height:8px;/*ドットボタンのサイズ*/
+    display:block;
+    border-radius:50%;
+    background:#ccc;/*ドットボタンの色*/
+}
+button{
+    padding: 0;
+}
+
+.slick-dots .slick-active button{
+    background:#333;/*ドットボタンの現在地表示の色*/
 }
 .tile{
-    width: calc(100%/3);
+    width: 500px;
     border: 5px solid #FFF;
     height: 500px;
     margin-top: 50px;
     background: #66F;
     border-radius: 15px;
     text-align: center;
-    flex: 0 0 auto;
+    /* flex: 0 0 auto; */
     box-sizing: border-box;
 }
 .home{
@@ -119,8 +190,23 @@
         transform: translateX(0);
     }
 }
-.show{
+@keyframes faderight {
+    from {
+        opacity: 0;
+        /* transform: translateY(150px); */
+    }
+    to {
+        opacity: 1;
+        /* transform: translateX(0); */
+    }
+}
+.show.content{
     animation-name: fadeleft;
+    animation-duration: .5s;
+    animation-iteration-count: 1;
+}
+.show#home{
+    animation-name: faderight;
     animation-duration: .5s;
     animation-iteration-count: 1;
 }
