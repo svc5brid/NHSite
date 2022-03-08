@@ -98,11 +98,11 @@ body{
 }
 .slider__item {
     transform: scale(0.8);
-    opacity: 0.34;
+    opacity: 0.3;
     transition: all 0.4s;
 }
-    .slick-slide.slick-current .slider__item,
-    .slick-slide.is-active-next .slider__item {
+.slick-slide.slick-current .slider__item,
+.slick-slide.is-active-next .slider__item {
     transform: scale(1);/*中央の画像のサイズだけ等倍に*/
     opacity: 1;/*透過なし*/
 }
@@ -151,6 +151,7 @@ body{
     display:block;
     border-radius:50%;
     background:#ccc;/*ドットボタンの色*/
+    border: 1px solid transparent;
 }
 button{
     padding: 0;

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main.apps.MainConfig',
+    'Balance_management.apps.BalanceManagementConfig',
 ]
 
 MIDDLEWARE = [
@@ -61,6 +62,7 @@ PUBLIC_PATHS = [
     '/signup/'
 ]
 ROOT_URLCONF = 'NHSite.urls'
+SESSION_COOKIE_AGE = 259200
 
 TEMPLATES = [
     {

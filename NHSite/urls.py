@@ -20,7 +20,8 @@ from main import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('index/', include('main.urls'), name="index"),
+    path('index/', include('main.urls')),
+    path(r'Balance-management/', include('Balance_management.urls')),
     path(r'login/', auth_views.LoginView.as_view(template_name='Login.html'), name='login'),
     path(r'logout/', auth_views.LogoutView.as_view(), name='logout'),
     path(r'signup/', views.signup, name='signup'),
