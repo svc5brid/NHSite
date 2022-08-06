@@ -1,26 +1,32 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Here input the title</title>
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/Layout1.css">
+    <title>{% block title %}Here input the title{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'Balance-Management/css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'Balance-Management/css/Layout1.css' %}">
+    <script src="{% static 'javascript/jquery-3.6.0.js' %}"></script>
+    {% block css %}{% endblock %}
 </head>
 <body>
     
     <div class="LeftWrap">
         <div class="IconImg">
 
-            <img src="img/icon_left_inst.png" alt="icon">
+            <img src="{% static 'Balance-Management/img/icon_left_inst.png' %}" alt="icon">
             <span class="AppVersion">Ver1.0</span>
             <span class="AppName">Balance<br>Management</span>
         </div>
         
     </div>
     <div class="Wrap_Main">
-
+        {% block bodywrap %}
+        {% endblock %}
     </div>
+    {% block javascript %}
+    {% endblock %}
 </body>
 </html>

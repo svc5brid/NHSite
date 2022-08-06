@@ -1,0 +1,118 @@
+<!-- 必須 -->
+{% extends 'Balance-Management/Layout1_HasLeftIcon.html' %}
+{% load static %}
+<!-- head内のタイトル -->
+{% block title %}
+Select Profile
+{% endblock %}
+<!-- 固有のcssがあれば記載 -->
+{% block css %}
+<!-- <link rel="stylesheet" href="{% static 'css/AboutUs.css' %}"> -->
+
+{% endblock %}
+<!-- ボディー部分 -->
+{% block bodywrap %}
+    <h1>
+        Select Profile here
+    </h1>
+    <select name="" id="">
+        <option value="0">Profile 1</option>
+        <option value="1">Profile 2</option>
+    </select>
+    <button>
+        Go
+    </button>
+    <h1>
+        Create New Profile here
+    </h1>
+    <label for="">
+        Profile Name
+        <input type="text">
+    </label>
+    <label for="">
+        Choice User 1
+        <select name="" id="">
+            <option value="0">UserA</option>
+            <option value="1">UserB</option>
+        </select>
+    </label>
+    <label for="">
+        Choice User 2
+        <select name="" id="">
+            <option value="0">UserC</option>
+            <option value="1">UserD</option>
+        </select>
+    </label>
+    <button>
+        Create
+    </button>
+    <form id="ajax-number" action="{% url 'Balance_Management:get_profile' %}" method="POST">
+        {% csrf_token %}
+        <input type="number" id="number1" required>
+        <input type="number" id="number2" required>
+        <button type="submit" >計算</button>
+    </form>
+    <h2>数値の計算</h2>
+        <div class="result">
+        </div>
+{% endblock %}
+<!-- javascriptがあれば記載。 -->
+{% block javascript %}
+<script>
+    //csrf_token
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    
+    var csrftoken = getCookie('csrftoken');
+    
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+    //送信のところ。submitを検知する。
+    $('#ajax-number').on('submit', function(e) {
+        //送信を止める
+        e.preventDefault();
+        //リクエストの設定
+        $.ajax({
+            //urlが送信先
+            'url': '{% url "Balance_Management:get_profile" %}',
+            //typeはgetなのかpostなのか。
+            'type': 'POST',
+            //サーバーに送信するデータ。
+            'data': {
+                'number1': $('#number1').val(),
+                'number2': $('#number2').val(),
+            },
+            //上のデータ形式。
+            'dataType': 'json'
+        })
+        .done(function(response){
+            $('.result').prepend('<p>引き算結果：' + response.minus + '</p>');
+            $('.result').prepend('<p>足し算結果：' + response.plus + '</p>');
+        });
+    });
+</script>
+});
+{% endblock %}

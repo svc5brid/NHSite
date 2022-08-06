@@ -1,11 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import View
+from django.http import JsonResponse
 
-def get_profile(request):
-    # 下記情報を使用して、その人が利用可能なプロファイル一覧をリストで返す
-    # request.user()
-    return ["p1", "p2", "p3", "p4"]
-    
+
 # Create your views here.
 def index(request):
     context = {}
@@ -18,7 +15,15 @@ def index(request):
 class SelectProfile(View):
     def get(self, request):
         context = {}
-        context["profile"] = get_profile(request)
         request.session["Balance-Management_Profile"] = "Test"
-        return render(request, "Balance-Management/ProfileSelecter.html", context)
-    
+        return render(request, "Balance-Management/Select_Profile.html", context)
+def get_profile(request):
+    number1 = int(request.POST['number1'])
+    number2 = int(request.POST["number2"])
+    plus = number1 + number2
+    minus = number1 - number2
+    d = {
+        'plus': plus,
+        'minus': minus,
+    }
+    return JsonResponse(d)
