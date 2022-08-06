@@ -1,0 +1,43 @@
+body{
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+}
+.LeftWrap { 
+    width: 20%;
+    position: relative;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+.IconImg{
+    position: relative;
+}
+img{
+    width: 100%;
+}
+.AppVersion{
+    position: absolute;
+    bottom: 15%;
+    right: 10%;
+    font-size: 20px;
+}
+.AppName{
+    color: #FFF;
+    font-size: 36px;
+    font-family: ヒラギノ明朝 ProN;
+    position: absolute;
+    top: 20%;
+    left: 5%;
+}
+.Wrap_Main{
+    height: 100%;
+    width: 60%;
+    min-width: 700px;
+    background: #000;
+    margin-left: 8px;
+}
