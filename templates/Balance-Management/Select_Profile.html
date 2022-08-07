@@ -16,8 +16,10 @@ Select Profile
         Select Profile here
     </h1>
     <select name="" id="">
-        <option value="0">Profile 1</option>
-        <option value="1">Profile 2</option>
+        {% for i in Profile %}
+        
+        <option value="{{i.id}}">{{i.name}}</option>
+        {% endfor %}
     </select>
     <button>
         Go
@@ -27,34 +29,31 @@ Select Profile
     </h1>
     <label for="">
         Profile Name
-        <input type="text">
+        <input type="text" id="Form_Create_Name">
     </label>
+    <span id="name_useable">
+
+    </span>
     <label for="">
         Choice User 1
-        <select name="" id="">
-            <option value="0">UserA</option>
-            <option value="1">UserB</option>
+        <select name="" id="Form_Create_User1">
+            <option disabled selected>select user2</option>
+            {% for i in UserList %}
+        
+            <option value="{{i.id}}">{{i.name}}</option>
+            {% endfor %}
         </select>
     </label>
     <label for="">
         Choice User 2
-        <select name="" id="">
-            <option value="0">UserC</option>
-            <option value="1">UserD</option>
+        <select name="" id="Form_Create_User2" disabled>
+            <option disabled selected>select user2</option>
         </select>
     </label>
     <button>
         Create
     </button>
-    <form id="ajax-number" action="{% url 'Balance_Management:get_profile' %}" method="POST">
-        {% csrf_token %}
-        <input type="number" id="number1" required>
-        <input type="number" id="number2" required>
-        <button type="submit" >計算</button>
-    </form>
-    <h2>数値の計算</h2>
-        <div class="result">
-        </div>
+    
 {% endblock %}
 <!-- javascriptがあれば記載。 -->
 {% block javascript %}
@@ -90,29 +89,75 @@ Select Profile
             }
         }
     });
+    
+    //Confirm useable of inputted profile name
+    $('#Form_Create_Name').change(function(e){
+        //execute only inputted anything
+        if($("#Form_Create_Name").val()!=""){
+            //リクエストの設定
+            $.ajax({
+                //urlが送信先
+                'url': '{% url "Balance_Management:SelectProfile_API" %}',
+                //typeはgetなのかpostなのか。
+                'type': 'POST',
+                //サーバーに送信するデータ。
+                'data': {
+                    'type': "confirm_name",
+                    'name_profile': $('#Form_Create_Name').val(),
+                },
+                //上のデータ形式。
+                'dataType': 'json'
+            })
+            .done(function(response){
+                const judge = response.judge;
+                $("#name_useable").html(judge);
+                console.log(judge)
+            });
+        }else{
+            $("#name_useable").html("");
+        }
+    })
+
     //送信のところ。submitを検知する。
-    $('#ajax-number').on('submit', function(e) {
+    $('#Form_Create_User1').change(function(e){
         //送信を止める
         e.preventDefault();
         //リクエストの設定
         $.ajax({
             //urlが送信先
-            'url': '{% url "Balance_Management:get_profile" %}',
+            'url': '{% url "Balance_Management:SelectProfile_API" %}',
             //typeはgetなのかpostなのか。
             'type': 'POST',
             //サーバーに送信するデータ。
             'data': {
-                'number1': $('#number1').val(),
-                'number2': $('#number2').val(),
+                'type': "get_user",
+                'user1': $('#Form_Create_User1').val(),
             },
             //上のデータ形式。
             'dataType': 'json'
         })
         .done(function(response){
-            $('.result').prepend('<p>引き算結果：' + response.minus + '</p>');
-            $('.result').prepend('<p>足し算結果：' + response.plus + '</p>');
+            const a = response.User2;
+            const select = document.getElementById("Form_Create_User2")
+            if (select.hasChildNodes()) {
+                while (select.childNodes.length > 0) {
+                    select.removeChild(select.firstChild)
+                }
+            }
+            const option = document.createElement('option');
+            option.disabled = true;
+            option.innerHTML = "select user2"
+            option.selected = true
+            select.appendChild(option)
+            a.forEach((value, index) => {
+                const option = document.createElement('option');
+                option.value = value.id;
+                option.innerHTML = value.name;
+                select.appendChild(option);
+            })
+            select.disabled = false;
         });
-    });
+    })
 </script>
-});
+
 {% endblock %}
